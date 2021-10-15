@@ -1,50 +1,80 @@
 import React, { useEffect, useState } from "react";
 
+/* Ejercicio de renderización: Realizar un formularios que le pida al usuario su edad y muestre un mensaje que diga 
+si es mayor o menor de edad*/
+
 const Vehiculos = () => {
-  const [nombreVehiculo, setnombreVehiculo] = useState("Este es el valor inicial");
+  const [edad, setEdad] = useState(0);
+  const [esMenorDeEdad, setEsMenorDeEdad] = useState(false);
+  const [mostrarCamposAdicionales, setMostrarCamposAdicionales] =
+    useState(false);
 
   useEffect(() => {
-    console.log("Hola");
-  }, []);
-
-  useEffect(() => {
-    console.log(
-      "Esta es una función que se ejecuta cada vez que cambia el valor nombreVehiculo"
-    );
-    console.log("El valor de la variable es ", nombreVehiculo);
-  }, [nombreVehiculo]);
+    if (edad >= 18) {
+      setEsMenorDeEdad(false);
+    } else {
+      setEsMenorDeEdad(true);
+    }
+  }, [edad]);
 
   return (
     <form className="flex flex-col ">
       <h2>Formulario de creación de vehículos</h2>
-      <input
-        onChange={(e) => {
-          setnombreVehiculo(e.target.value);
-        }}
-        value={nombreVehiculo}
-        type="text"
-        placeholder="Nombre del vehiculo"
-      />
-      <input
-        onChange={(e) => {
-          console.log(e.target.value);
-        }}
-        type="text"
-        placeholder="Marca del vehículo"
-      />
-      <input type="text" placeholder="Modelo" />
+      <label htmlFor="edad">
+        Por favor ingrese su edad
+        <input
+          value={edad}
+          onChange={(e) => setEdad(e.target.value)}
+          className="border border-gray-500"
+          name="edad"
+          type="number"
+        />
+      </label>
+      {esMenorDeEdad ? (
+        <span className="text-3xl text-red-500">
+          Usted es menor de edad! No puede ingresar
+        </span>
+      ) : (
+        <span className="text-3xl text-green-500">
+          Usted es mayor de edad! Si puede ingresar
+        </span>
+      )}
       <button
-        onClick={() => {
-          console.log(
-            "El valor de la varible nombreVehiculo es ",
-            nombreVehiculo
-          );
-        }}
+        onClick={() => setMostrarCamposAdicionales(!mostrarCamposAdicionales)}
         type="button"
-        className="bg-indigo-500 text-white"
+        className="text-white bg-indigo-500 "
       >
-        Enviar datos
+        Mostrar campos adicionales
       </button>
+      {mostrarCamposAdicionales && (
+        <div>
+          <input
+            className="border bg-gray-400 my-2 p-3"
+            placeholder="dato nuevo"
+            type="text"
+          />
+          <input
+            className="border bg-gray-400 my-2 p-3"
+            placeholder="dato nuevo"
+            type="text"
+          />
+          <input
+            className="border bg-gray-400 my-2 p-3"
+            placeholder="dato nuevo"
+            type="text"
+          />
+          <input
+            className="border bg-gray-400 my-2 p-3"
+            placeholder="dato nuevo"
+            type="text"
+          />
+          <input
+            className="border bg-gray-400 my-2 p-3"
+            placeholder="dato nuevo"
+            type="text"
+          />
+        </div>
+      )}
     </form>
   );
 };
