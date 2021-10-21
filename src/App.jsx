@@ -2,7 +2,7 @@ import Index from "pages/Index";
 import Admin from "pages/admin/Index";
 import Login from "pages/Login.jsx";
 import Registro from "pages/Registro";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import "styles/styles.css";
 import PublicLayout from "layouts/PublicLayout";
 import PrivateLayout from "layouts/PrivateLayout";

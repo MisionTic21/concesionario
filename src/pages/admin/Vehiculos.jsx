@@ -3,79 +3,140 @@ import React, { useEffect, useState } from "react";
 /* Ejercicio de renderización: Realizar un formularios que le pida al usuario su edad y muestre un mensaje que diga 
 si es mayor o menor de edad*/
 
+const vehiculosBackend = [
+  {
+    nombre: "Corolla",
+    marca: "Toyota",
+    modelo: "2014",
+  },
+  {
+    nombre: "Sandero",
+    marca: "Reanult",
+    modelo: "2020",
+  },
+  {
+    nombre: "Rav4",
+    marca: "Toyota",
+    modelo: "2021",
+  },
+  {
+    nombre: "Fiesta",
+    marca: "Ford",
+    modelo: "2017",
+  },
+  {
+    nombre: "Mazda 3",
+    marca: "Mazda",
+    modelo: "2020",
+  },
+  {
+    nombre: "Onix",
+    marca: "Chevrolet",
+    modelo: "2019",
+  },
+];
+
 const Vehiculos = () => {
-  const [edad, setEdad] = useState(0);
-  const [esMenorDeEdad, setEsMenorDeEdad] = useState(false);
-  const [mostrarCamposAdicionales, setMostrarCamposAdicionales] =
-    useState(false);
+  const [mostrarTabla, setMostrarTabla] = useState(true);
+  const [vehiculos, setVehiculos] = useState([]);
+  const [textoBoton, setTextoBoton] = useState("Crear nuevo vehiculo");
 
   useEffect(() => {
-    if (edad >= 18) {
-      setEsMenorDeEdad(false);
+    // Obtener lista de vehículos desde el backend
+    setVehiculos(vehiculosBackend);
+  }, []);
+
+  useEffect(() => {
+    if (mostrarTabla) {
+      setTextoBoton("Crear nuevo vehiculo");
     } else {
-      setEsMenorDeEdad(true);
+      setTextoBoton("Mostar todos los vehiculos");
     }
-  }, [edad]);
+  }, [mostrarTabla]);
 
   return (
-    <form className="flex flex-col ">
-      <h2>Formulario de creación de vehículos</h2>
-      <label htmlFor="edad">
-        Por favor ingrese su edad
-        <input
-          value={edad}
-          onChange={(e) => setEdad(e.target.value)}
-          className="border border-gray-500"
-          name="edad"
-          type="number"
-        />
-      </label>
-      {esMenorDeEdad ? (
-        <span className="text-3xl text-red-500">
-          Usted es menor de edad! No puede ingresar
-        </span>
+    <div className="flex h-full w-full flex-col items-center justify-start p-8">
+      <div className="flex flex-col">
+        <h2 className="text-3xl font-extrabold text-gray-900">
+          Página de administración de vehiculos
+        </h2>
+        <button
+          onClick={() => setMostrarTabla(!mostrarTabla)}
+          className="text-white bg-indigo-500 p-5 rounded-full m-6 w-28 self-end"
+        >
+          {textoBoton}
+        </button>
+      </div>
+      {mostrarTabla ? (
+        <TablaVehiculos listaVehiculos={vehiculos} />
       ) : (
-        <span className="text-3xl text-green-500">
-          Usted es mayor de edad! Si puede ingresar
-        </span>
+        <FormularioCreacionVehiculos />
       )}
-      <button
-        onClick={() => setMostrarCamposAdicionales(!mostrarCamposAdicionales)}
-        type="button"
-        className="text-white bg-indigo-500 "
-      >
-        Mostrar campos adicionales
-      </button>
-      {mostrarCamposAdicionales && (
-        <div>
-          <input
-            className="border bg-gray-400 my-2 p-3"
-            placeholder="dato nuevo"
-            type="text"
-          />
-          <input
-            className="border bg-gray-400 my-2 p-3"
-            placeholder="dato nuevo"
-            type="text"
-          />
-          <input
-            className="border bg-gray-400 my-2 p-3"
-            placeholder="dato nuevo"
-            type="text"
-          />
-          <input
-            className="border bg-gray-400 my-2 p-3"
-            placeholder="dato nuevo"
-            type="text"
-          />
-          <input
-            className="border bg-gray-400 my-2 p-3"
-            placeholder="dato nuevo"
-            type="text"
-          />
-        </div>
-      )}
-    </form>
+    </div>
+  );
+};
+
+const TablaVehiculos = ({ listaVehiculos }) => {
+  useEffect(() => {
+    console.log("Este es el listado de vehiculos en el componente de tabla", listaVehiculos);
+  }, [listaVehiculos]);
+  return (
+    <div className="flex flex-col items-center justify-center ">
+      <h2 className="text-2xl font-extrabold text-gray-800">
+        Todos los vehículos
+      </h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre del vehículo</th>
+            <th>Marca del vehículo</th>
+            <th>Modelo del vehículo</th>
+          </tr>
+        </thead>
+        <tbody>
+          {listaVehiculos.map((vehiculo) => {
+            return (
+          <tr>
+            <td>{vehiculo.nombre}</td>
+            <td>{vehiculo.marca}</td>
+            <td>{vehiculo.modelo}</td>
+          </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+const FormularioCreacionVehiculos = () => {
+  return (
+    <div className="flex flex-col items-center justify-center">
+      <h2 className="text-2xl font-extrabold text-gray-800">
+        Crear nuevo vehículo
+      </h2>
+      <form className="grid grid-cols-2">
+        <input
+          className="bg-gray-50 border border-gray-600 p-2 mx-2 my-2 rounded-md "
+          type="text"
+        />
+        <input
+          className="bg-gray-50 border border-gray-600 p-2 mx-2 my-2 rounded-md "
+          type="text"
+        />
+        <input
+          className="bg-gray-50 border border-gray-600 p-2 mx-2 my-2 rounded-md "
+          type="text"
+        />
+        <input
+          className="bg-gray-50 border border-gray-600 p-2 mx-2 my-2 rounded-md "
+          type="text"
+        />
+        <button className="col-span-2 bg-green-400 p-2 rounded-full shadow-md hover:bg-green-600 text-white">
+          Guardar vehículo
+        </button>
+      </form>
+    </div>
   );
 };
 
